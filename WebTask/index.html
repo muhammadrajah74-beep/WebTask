@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebTask — Kelola Pekerjaan</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">W</div>
+      <span>WebTask</span>
+    </div>
+
+    <p class="side-label">WORKSPACE</p>
+
+    <button class="nav-item active" id="boardNav">
+      <span>▦</span> Papan Tugas
+    </button>
+
+    <button class="nav-item" id="allTasksNav">
+      <span>☷</span> Semua Tugas
+    </button>
+
+    <div class="sidebar-bottom">
+      <div class="profile-avatar">A</div>
+      <div>
+        <strong>Administrator</strong>
+        <small>Workspace pribadi</small>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="breadcrumb">
+        Workspace <span>/</span> Papan Tugas
+      </div>
+      <div class="top-actions">
+        <span class="save-status">
+          <i></i> Tersimpan otomatis
+        </span>
+      </div>
+    </header>
+
+    <section class="page-heading">
+      <div>
+        <p class="eyebrow">PROJECT WORKSPACE</p>
+        <h1>Kelola Pekerjaan</h1>
+        <p class="subtitle">
+          Atur tugas proyek website agar pekerjaan lebih terorganisir.
+        </p>
+      </div>
+      <button class="primary-btn" id="addTaskBtn">
+        ＋ Tambah Tugas
+      </button>
+    </section>
+
+    <section class="summary">
+      <article class="summary-card">
+        <div class="summary-icon purple">▦</div>
+        <div>
+          <span>Total Tugas</span>
+          <strong id="totalCount">0</strong>
+        </div>
+      </article>
+
+      <article class="summary-card">
+        <div class="summary-icon orange">◷</div>
+        <div>
+          <span>Belum Dikerjakan</span>
+          <strong id="todoCount">0</strong>
+        </div>
+      </article>
+
+      <article class="summary-card">
+        <div class="summary-icon blue">↻</div>
+        <div>
+          <span>Sedang Dikerjakan</span>
+          <strong id="doingCount">0</strong>
+        </div>
+      </article>
+
+      <article class="summary-card">
+        <div class="summary-icon green">✓</div>
+        <div>
+          <span>Selesai</span>
+          <strong id="doneCount">0</strong>
+        </div>
+      </article>
+    </section>
+
+    <section class="board-header">
+      <div>
+        <h2>Papan Proyek</h2>
+        <p>Proyek pembuatan website</p>
+      </div>
+
+      <div class="board-tools">
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Cari tugas..."
+          aria-label="Cari tugas"
+        />
+
+        <select id="priorityFilter" aria-label="Filter prioritas">
+          <option value="all">Semua Prioritas</option>
+          <option value="Tinggi">Tinggi</option>
+          <option value="Sedang">Sedang</option>
+          <option value="Rendah">Rendah</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="board">
+      <div class="column" data-status="todo">
+        <div class="column-heading">
+          <div>
+            <span class="status-dot todo-dot"></span>
+            <h3>To Do</h3>
+            <span class="column-count" id="todoColumnCount">0</span>
+          </div>
+          <button class="add-column-task" data-add="todo">＋</button>
+        </div>
+        <div class="task-list" id="todoList"></div>
+      </div>
+
+      <div class="column" data-status="doing">
+        <div class="column-heading">
+          <div>
+            <span class="status-dot doing-dot"></span>
+            <h3>Doing</h3>
+            <span class="column-count" id="doingColumnCount">0</span>
+          </div>
+          <button class="add-column-task" data-add="doing">＋</button>
+        </div>
+        <div class="task-list" id="doingList"></div>
+      </div>
+
+      <div class="column" data-status="done">
+        <div class="column-heading">
+          <div>
+            <span class="status-dot done-dot"></span>
+            <h3>Done</h3>
+            <span class="column-count" id="doneColumnCount">0</span>
+          </div>
+          <button class="add-column-task" data-add="done">＋</button>
+        </div>
+        <div class="task-list" id="doneList"></div>
+      </div>
+    </section>
+
+    <footer>
+      WebTask <span>•</span> Data disimpan di browser yang sedang digunakan.
+    </footer>
+  </main>
+
+  <div class="modal-backdrop hidden" id="taskModal">
+    <form class="modal" id="taskForm">
+      <div class="modal-heading">
+        <div>
+          <p class="eyebrow">TASK MANAGEMENT</p>
+          <h2 id="modalTitle">Tambah Tugas</h2>
+        </div>
+        <button type="button" class="close-btn" id="closeModal">×</button>
+      </div>
+
+      <label>
+        Nama tugas
+        <input
+          id="taskTitle"
+          type="text"
+          maxlength="80"
+          placeholder="Contoh: Membuat halaman login"
+          required
+        />
+      </label>
+
+      <label>
+        Deskripsi
+        <textarea
+          id="taskDescription"
+          rows="3"
+          maxlength="300"
+          placeholder="Jelaskan pekerjaan yang perlu dilakukan..."
+        ></textarea>
+      </label>
+
+      <div class="form-row">
+        <label>
+          Prioritas
+          <select id="taskPriority">
+            <option>Tinggi</option>
+            <option selected>Sedang</option>
+            <option>Rendah</option>
+          </select>
+        </label>
+
+        <label>
+          Status
+          <select id="taskStatus">
+            <option value="todo">To Do</option>
+            <option value="doing">Doing</option>
+            <option value="done">Done</option>
+          </select>
+        </label>
+      </div>
+
+      <label>
+        Penanggung jawab
+        <input
+          id="taskAssignee"
+          type="text"
+          maxlength="40"
+          placeholder="Contoh: Rajah"
+        />
+      </label>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" id="cancelModal">
+          Batal
+        </button>
+        <button type="submit" class="primary-btn">
+          Simpan Tugas
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
